@@ -8,4 +8,8 @@ Le projet utilise MySQL, pour le lancer, il faut donc créer une base de donnée
 
 <br>
 
+Si vous utilisez des identifiants différents, il suffit de les changer dans src/main/resources/application.properties.
+
+<br>
+
 Il faut également synchroniser Gradle.
