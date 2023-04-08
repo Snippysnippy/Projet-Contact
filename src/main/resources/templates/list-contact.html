@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des contacts</title>
+</head>
+<body>
+<h1>Liste des contacts</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Boucle sur tous les contacts et génération des lignes du tableau -->
+    <th:block th:each="contact : ${contacts}">
+        <tr>
+            <td th:text="${contact.lastName}"></td>
+            <td th:text="${contact.firstName}"></td>
+            <td th:text="${contact.email}"></td>
+            <td>
+                <!-- Bouton de modification redirigeant vers le formulaire de modification -->
+                <a th:href="@{/contacts/{id}(id=${contact.id})}">Modifier</a>
+
+                <!-- Formulaire de suppression -->
+                <form th:action="@{/contacts/delete/{id}(id=${contact.id})}" method="get">
+                    <input type="submit" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce contact ?');">
+                </form>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+<!-- Formulaire d'ajout de contact -->
+<h2>Ajouter un contact</h2>
+<form th:action="@{/api/contacts}" method="post">
+    <label for="firstName">Prénom :</label>
+    <input type="text" id="firstName" name="firstName" required><br>
+
+    <label for="lastName">Nom :</label>
+    <input type="text" id="lastName" name="lastName" required><br>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <input type="submit" value="Ajouter">
+</form>
+</body>
+</html>
