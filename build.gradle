@@ -11,7 +11,7 @@ version='0.1.0'
 repositories {
 	mavenCentral()
 }
-sourceCompatibility = '17'
+//sourceCompatibility = '17'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
