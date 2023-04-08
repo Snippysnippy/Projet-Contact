@@ -38,7 +38,7 @@
 
 <!-- Formulaire d'ajout de contact -->
 <h2>Ajouter un contact</h2>
-<form action="/contacts" method="post">
+<form th:action="@{'/contacts'}" method="post">
     <label for="firstName">Prénom :</label>
     <input type="text" id="firstName" name="firstName" required><br><br>
 

@@ -21,16 +21,11 @@ public class Contact {
     @Column(name = "email")
     private String email;
 
-//    @ManyToMany(cascade = {CascadeType.ALL})
-//    @JoinTable(
-//            name = "contact_address",
-//            joinColumns = { @JoinColumn(name = "contact_id") },
-//            inverseJoinColumns = { @JoinColumn(name = "address_id") }
-//    )
-//    private Set<Address> addresses = new HashSet<>();
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contact")
-//    private Set<PhoneNumber> phoneNumbers = new HashSet<>();
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+    private Set<Adresse> addresses = new HashSet<>();
+
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+    private Set<Email> emails = new HashSet<>();
 
     public Contact() {
     }

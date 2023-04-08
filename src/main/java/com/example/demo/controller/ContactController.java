@@ -2,14 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Contact;
 import com.example.demo.service.ContactService;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+
 
 @Controller
 public class ContactController {
@@ -85,15 +89,29 @@ public class ContactController {
     }
 
     /************************************** API XML ************************************************/
-    @GetMapping("/api/xml/contacts")
-    public ResponseEntity<List<Contact>> getAllContactsXml() {
-        List<Contact> contacts = contactService.getAllContacts();
-        return ResponseEntity.ok(contacts);
+
+    @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getXmlResponse(@RequestParam String action, @RequestParam(required = false) Long id) {
+        try {
+            if (action.equals("listContacts")) {
+                List<Contact> contacts = contactService.getAllContacts();
+                XmlMapper xmlMapper = new XmlMapper();
+                String xml = xmlMapper.writeValueAsString(contacts);
+                return ResponseEntity.ok(xml);
+            } else if (action.equals("getContact") && id != null) {
+                Contact contact = contactService.getContactById(id);
+                XmlMapper xmlMapper = new XmlMapper();
+                String xml = xmlMapper.writeValueAsString(contact);
+                return ResponseEntity.ok(xml);
+            } else if (action.equals("delContact") && id != null) {
+                contactService.deleteContact(id);
+                return ResponseEntity.ok("Contact with id " + id + " has been deleted.");
+            } else {
+                return ResponseEntity.badRequest().body("Invalid action");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
     }
 
-    @GetMapping("/api/contacts/xml/{id}")
-    public ResponseEntity<Contact> getContactByIdXml(@PathVariable Long id) {
-        Contact contact = contactService.getContactById(id);
-        return ResponseEntity.ok(contact);
-    }
 }
