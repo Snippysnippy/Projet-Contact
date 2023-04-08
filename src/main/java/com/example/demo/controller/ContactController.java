@@ -32,6 +32,13 @@ public class ContactController {
         return "edit-contact";
     }
 
+    @PostMapping("/contacts")
+    public String addContact(@ModelAttribute("contact") Contact contact) {
+        contactService.addContact(contact);
+        return "redirect:/contacts";
+    }
+
+
     @PostMapping("/contacts/edit/{id}")
     public String updateContactForm(@PathVariable Long id, @ModelAttribute Contact contact) {
         contact.setId(id);
